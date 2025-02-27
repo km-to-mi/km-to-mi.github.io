@@ -1,1 +1,381 @@
-coolpoint
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn-icons-png.flaticon.com/512/189/189688.png" rel="icon" type="image/png"/>
+    <title id="dynamicTitle">Kilometer To Mile (km to mi) Converter</title>
+    <meta content="Kilometer To Mile (km to mi) Converter - Convert kilometers to miles easily using our online tool." id="metaDescription" name="description"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+
+    <style>
+    body {
+        font-family: 'Poppins', Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
+        color: #2d3748;
+        line-height: 1.6;
+    }
+    #header {
+        background: linear-gradient(90deg, #4a00e0, #8e2de2);
+        color: #fff;
+        padding: 30px 20px;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    #header h1 {
+        margin: 0;
+        font-size: 2.5em;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    #header h1 a {
+        color: #fff;
+        text-decoration: none;
+    }
+    #content {
+        max-width: 900px;
+        margin: 30px auto;
+        padding: 25px;
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    }
+    #footer {
+        text-align: center;
+        padding: 20px;
+        background: linear-gradient(90deg, #2b6cb0, #3182ce);
+        color: #fff;
+        font-size: 0.9em;
+        box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+    }
+    #calculator {
+        margin: 30px 0;
+        padding: 20px;
+        background: linear-gradient(135deg, #e9d8fd, #c3dafe);
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        position: relative;
+    }
+    #calculator input {
+        padding: 12px;
+        margin: 10px 0;
+        width: 100%;
+        max-width: 250px;
+        border: 2px solid #d1d5db;
+        border-radius: 8px;
+        font-size: 1em;
+        transition: border-color 0.3s ease;
+        box-sizing: border-box;
+    }
+    #calculator input:focus {
+        border-color: #4a00e0;
+        outline: none;
+    }
+    #calculator button {
+        padding: 12px 20px;
+        margin: 10px 0;
+        background: linear-gradient(90deg, #4a00e0, #8e2de2);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-size: 1em;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        width: 100%;
+        max-width: 250px;
+        box-sizing: border-box;
+    }
+    #calculator button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    #calculator p#result {
+        margin-top: 15px;
+        font-size: 1.2em;
+        color: #2d3748;
+        font-weight: 500;
+        word-wrap: break-word;
+        text-align: center;
+    }
+    .loader {
+        display: none;
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #4a00e0;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        animation: spin 1s linear infinite;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    @keyframes spin {
+        0% { transform: translate(-50%, -50%) rotate(0deg); }
+        100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+    .conversion-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 10px;
+        margin-top: 20px;
+    }
+    .conversion-item {
+        background: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 10px;
+        text-align: center;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .conversion-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .conversion-item a {
+        text-decoration: none;
+        color: #4a00e0;
+        font-weight: 500;
+    }
+    .conversion-item a:hover {
+        color: #8e2de2;
+    }
+    .conversion-table {
+        margin-top: 20px;
+    }
+    .conversion-table table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .conversion-table th, .conversion-table td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: center;
+    }
+    .conversion-table th {
+        background: #4a00e0;
+        color: #fff;
+    }
+    #conversionFormula {
+        text-align: center;
+        max-width: 600px;
+        margin: 20px auto;
+        background: linear-gradient(135deg, #fefcbf, #fed7aa);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    #conversionSteps {
+        text-align: center;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    #explanation {
+        text-align: left;
+        max-width: 600px;
+        margin: 20px auto;
+    }
+    #sitemapContainer {
+        display: none;
+        margin: 20px 0;
+    }
+    #sitemapContainer pre {
+        margin: 0;
+        white-space: pre-wrap;
+        font-family: monospace;
+        background: #f9fafb;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+    @media (max-width: 600px) {
+        .conversion-grid {
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        }
+        #header h1 {
+            font-size: 1.5em;
+        }
+        #content {
+            margin: 10px;
+            padding: 15px;
+        }
+    }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <h1><a href="/" onclick="navigateTo('/'); return false;">Kilometer to Mile Converter</a></h1>
+    </div>
+    <div id="content">
+        <div id="calculator">
+            <div style="text-align: center;">
+                <input id="inputValue" placeholder="Enter kilometers (e.g., 55)" type="number"/>
+                <button onclick="convertKmToMiles()">Convert to Miles</button>
+            </div>
+            <div class="loader" id="loader"></div>
+            <p id="result"></p>
+        </div>
+        <div id="gridContainer">
+            <div class="conversion-grid"></div>
+        </div>
+        <div id="sitemapContainer">
+            <h2>Sitemap Preview</h2>
+            <pre id="sitemap"></pre>
+            <p><a href="/sitemap.xml" target="_blank">View Full Sitemap</a></p>
+        </div>
+        <div id="detailedContent" style="display: none;">
+            <div class="conversion-table">
+                <h3>Conversion Table (Incremental Values)</h3>
+                <table id="kmToMilesTable">
+                    <thead>
+                        <tr>
+                            <th>Kilometers (km)</th>
+                            <th>Miles (mi)</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div id="conversionFormula">
+                <h3>Conversion Formula</h3>
+                <p>miles = kilometers × 0.621371</p>
+            </div>
+            <div id="conversionSteps">
+                <h3>Step-by-Step Conversion</h3>
+                <p id="stepExplanation"></p>
+            </div>
+            <div id="explanation">
+                <h3>Explanation</h3>
+                <p id="explanationText"></p>
+            </div>
+        </div>
+    </div>
+    <div id="footer">
+        <p>© 2025 Kilometer To Mile Converter</p>
+    </div>
+
+    <script>
+    function updatePageMetadata(km) {
+        const titleElement = document.getElementById('dynamicTitle');
+        const metaDescription = document.getElementById('metaDescription');
+        if (!isNaN(km)) {
+            document.title = `${km} Kilometers To Miles (km to mi) Converter`;
+            titleElement.textContent = `${km} Kilometers To Miles (km to mi) Converter`;
+            if (metaDescription) {
+                metaDescription.setAttribute('content', `Convert ${km} kilometers to miles (km to mi) easily using our online tool. Accurate and fast conversion.`);
+            }
+        }
+    }
+
+    function getBaseUrl() {
+        return window.location.origin; // Root domain, e.g., https://username.github.io
+    }
+
+    function navigateTo(path) {
+        const baseUrl = getBaseUrl();
+        const fullPath = path === '/' ? baseUrl : `${baseUrl}${path}`;
+        window.history.pushState({}, '', fullPath);
+        renderPage();
+    }
+
+    function renderPage() {
+        const currentPath = window.location.pathname.toLowerCase() || '/';
+        const gridContainer = document.getElementById('gridContainer');
+        const detailedContent = document.getElementById('detailedContent');
+        const sitemapContainer = document.getElementById('sitemapContainer');
+
+        let km = null;
+        if (currentPath.match(/^\/(\d+)-km-to-mi$/)) {
+            const match = currentPath.match(/\/(\d+)-km-to-mi/);
+            if (match) km = parseFloat(match[1]);
+        }
+
+        if (currentPath === '/' || currentPath === '') {
+            gridContainer.style.display = 'block';
+            sitemapContainer.style.display = 'none';
+            detailedContent.style.display = 'none';
+            generateConversionGrid();
+            document.title = 'Kilometer To Mile (km to mi) Converter';
+            document.getElementById('metaDescription').setAttribute('content', 'Kilometer To Mile (km to mi) Converter - Convert kilometers to miles easily using our online tool.');
+        } else if (currentPath === '/p/sitemap.xml') {
+            gridContainer.style.display = 'none';
+            detailedContent.style.display = 'none';
+            sitemapContainer.style.display = 'block';
+            generateSitemapPreview();
+        } else if (!isNaN(km)) {
+            gridContainer.style.display = 'none';
+            sitemapContainer.style.display = 'none';
+            detailedContent.style.display = 'block';
+            updatePageMetadata(km);
+            showDetailedConversion(km);
+        } else {
+            navigateTo('/'); // Redirect unknown paths to homepage
+        }
+    }
+
+    function generateConversionGrid() {
+        const grid = document.querySelector('.conversion-grid');
+        grid.innerHTML = '';
+        for (let i = 1; i <= 500; i++) {
+            const gridItem = document.createElement('div');
+            gridItem.className = 'conversion-item';
+            gridItem.innerHTML = `<a href="/${i}-km-to-mi" onclick="navigateTo('/${i}-km-to-mi'); return false;">${i} km to mi</a>`;
+            grid.appendChild(gridItem);
+        }
+    }
+
+    function generateSitemapPreview() {
+        const baseUrl = getBaseUrl();
+        let totalUrls = 500;
+        let sitemapXML = '<?xml version="1.0" encoding="UTF-8"?>\n' +
+                        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+        for (let i = 1; i <= totalUrls; i++) {
+            let url = `${baseUrl}/${i}-km-to-mi`;
+            sitemapXML += `  <url>\n    <loc>${url}</loc>\n  </url>\n`;
+        }
+        sitemapXML += '</urlset>';
+        document.getElementById("sitemap").textContent = sitemapXML;
+    }
+
+    function showDetailedConversion(km) {
+        const inputValue = document.getElementById('inputValue');
+        const resultDiv = document.getElementById('result');
+        inputValue.value = km;
+        const miles = km * 0.621371;
+        resultDiv.innerHTML = `<strong>${km} km = ${miles.toFixed(2)} miles</strong>`;
+
+        const tableBody = document.querySelector('#kmToMilesTable tbody');
+        tableBody.innerHTML = '';
+        for (let i = 1; i <= 9; i++) {
+            const incrementalValue = km + (i / 10);
+            const convertedValue = incrementalValue * 0.621371;
+            tableBody.innerHTML += `<tr><td>${incrementalValue.toFixed(1)} km</td><td>${convertedValue.toFixed(2)} mi</td></tr>`;
+        }
+
+        document.getElementById('stepExplanation').innerHTML = `
+            <p><strong>Step 1:</strong> Start with ${km} km</p>
+            <p><strong>Step 2:</strong> Multiply by 0.621371: ${km} × 0.621371 = ${miles.toFixed(2)} mi</p>
+            <p><strong>Step 3:</strong> For incremental values, add 0.1 km: ${km} + 0.1 = ${(km + 0.1).toFixed(1)} km</p>
+            <p><strong>Step 4:</strong> Multiply incrementally: ${(km + 0.1).toFixed(1)} × 0.621371 = ${((km + 0.1) * 0.621371).toFixed(2)} mi</p>
+        `;
+
+        document.getElementById('explanationText').innerHTML = `
+            Converting kilometers to miles is a straightforward process that involves a simple multiplication. To begin, we start with our initial value of ${km} kilometers. The conversion factor between kilometers and miles is 0.621371, which means that every kilometer is equivalent to approximately 0.621371 miles. 
+            To perform the conversion, we multiply ${km} by 0.621371, resulting in ${miles.toFixed(2)} miles. This gives us our conversion.
+        `;
+    }
+
+    function convertKmToMiles() {
+        const km = parseFloat(document.getElementById('inputValue').value);
+        if (!isNaN(km)) {
+            navigateTo(`/${km}-km-to-mi`);
+        }
+    }
+
+    window.addEventListener('popstate', renderPage);
+    window.addEventListener('load', renderPage);
+    </script>
+</body>
+</html>
