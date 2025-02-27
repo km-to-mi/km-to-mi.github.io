@@ -20,43 +20,10 @@
         color: #1f2a44;
         line-height: 1.5;
     }
-    .container {
-        display: flex;
-        min-height: 100vh;
-    }
-    .sidebar {
-        width: 250px;
-        background: #ffffff;
-        padding: 20px;
-        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
-        position: fixed;
-        height: 100%;
-        overflow-y: auto;
-    }
-    .sidebar h2 {
-        font-size: 1.5em;
-        color: #14b8a6;
-        margin-bottom: 20px;
-    }
-    .sidebar nav ul {
-        list-style: none;
-    }
-    .sidebar nav ul li {
-        margin: 10px 0;
-    }
-    .sidebar nav ul li a {
-        text-decoration: none;
-        color: #1f2a44;
-        font-weight: 600;
-        transition: color 0.3s;
-    }
-    .sidebar nav ul li a:hover {
-        color: #14b8a6;
-    }
     .main-content {
-        margin-left: 250px;
-        flex-grow: 1;
         padding: 40px;
+        max-width: 1000px;
+        margin: 0 auto;
     }
     .header {
         background: #ffffff;
@@ -64,6 +31,7 @@
         border-radius: 10px;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         margin-bottom: 30px;
+        text-align: center;
     }
     .header h1 {
         font-size: 2em;
@@ -73,12 +41,27 @@
         color: #14b8a6;
         text-decoration: none;
     }
+    .header nav {
+        margin-top: 10px;
+    }
+    .header nav a {
+        color: #14b8a6;
+        text-decoration: none;
+        margin: 0 10px;
+        font-weight: 600;
+    }
+    .header nav a:hover {
+        text-decoration: underline;
+    }
     .card {
         background: #ffffff;
         padding: 20px;
         border-radius: 10px;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         margin-bottom: 20px;
+    }
+    .calculator {
+        text-align: center;
     }
     .calculator input {
         padding: 10px;
@@ -166,77 +149,70 @@
         margin-top: 40px;
     }
     @media (max-width: 768px) {
-        .sidebar {
-            width: 100%;
-            height: auto;
-            position: relative;
-            box-shadow: none;
-        }
         .main-content {
-            margin-left: 0;
             padding: 20px;
+        }
+        .header h1 {
+            font-size: 1.5em;
+        }
+        .header nav a {
+            display: block;
+            margin: 5px 0;
         }
     }
     </style>
 </head>
 <body>
-    <div class="container">
-        <aside class="sidebar">
-            <h2>Quick Links</h2>
+    <div class="main-content">
+        <div class="header">
+            <h1><a href="/" onclick="navigateTo('/'); return false;">KM to Miles Converter</a></h1>
             <nav>
-                <ul>
-                    <li><a href="/" onclick="navigateTo('/'); return false;">Home</a></li>
-                    <li><a href="/p/sitemap.xml" onclick="navigateTo('/p/sitemap.xml'); return false;">Sitemap</a></li>
-                </ul>
+                <a href="/" onclick="navigateTo('/'); return false;">Home</a>
+                <a href="/p/sitemap.xml" onclick="navigateTo('/p/sitemap.xml'); return false;">Sitemap</a>
             </nav>
-        </aside>
-        <main class="main-content">
-            <div class="header">
-                <h1><a href="/" onclick="navigateTo('/'); return false;">KM to Miles Converter</a></h1>
+        </div>
+        <div class="card calculator">
+            <input id="inputValue" placeholder="Enter KM (e.g., 10)" type="number"/>
+            <button onclick="convertKmToMiles()">Convert</button>
+            <div class="result" id="result"></div>
+        </div>
+        <div class="card" id="gridContainer">
+            <div class="grid"></div>
+        </div>
+        <div class="card" id="sitemapContainer" style="display: none;">
+            <h3>Sitemap Preview</h3>
+            <pre id="sitemap"></pre>
+            <p><a href="/sitemap.xml" target="_blank">View Full Sitemap</a></p>
+        </div>
+        <div class="card" id="detailedContent" style="display: none;">
+            <div class="table-container">
+                <h3>Nearby Conversions</h3>
+                <table class="table" id="kmToMilesTable">
+                    <thead>
+                        <tr>
+                            <th>KM</th>
+                            <th>Miles</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
             </div>
-            <div class="card calculator">
-                <input id="inputValue" placeholder="Enter KM (e.g., 10)" type="number"/>
-                <button onclick="convertKmToMiles()">Convert</button>
-                <div class="result" id="result"></div>
+            <div class="formula">
+                <h3>How It Works</h3>
+                <p>Multiply kilometers by 0.621371 to get miles.</p>
             </div>
-            <div class="card" id="gridContainer">
-                <div class="grid"></div>
+            <div class="steps">
+                <h3>Conversion Steps</h3>
+                <p id="stepExplanation"></p>
             </div>
-            <div class="card" id="sitemapContainer" style="display: none;">
-                <h3>Sitemap Preview</h3>
-                <pre id="sitemap"></pre>
-                <p><a href="/sitemap.xml" target="_blank">View Full Sitemap</a></p>
+            <div class="explanation">
+                <h3>Why It Matters</h3>
+                <p id="explanationText"></p>
             </div>
-            <div class="card" id="detailedContent" style="display: none;">
-                <div class="table-container">
-                    <h3>Nearby Conversions</h3>
-                    <table class="table" id="kmToMilesTable">
-                        <thead>
-                            <tr>
-                                <th>KM</th>
-                                <th>Miles</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-                <div class="formula">
-                    <h3>How It Works</h3>
-                    <p>Multiply kilometers by 0.621371 to get miles.</p>
-                </div>
-                <div class="steps">
-                    <h3>Conversion Steps</h3>
-                    <p id="stepExplanation"></p>
-                </div>
-                <div class="explanation">
-                    <h3>Why It Matters</h3>
-                    <p id="explanationText"></p>
-                </div>
-            </div>
-            <div class="footer">
-                <p>© 2025 KM to Miles Converter. All rights reserved.</p>
-            </div>
-        </main>
+        </div>
+        <div class="footer">
+            <p>© 2025 KM to Miles Converter. All rights reserved.</p>
+        </div>
     </div>
 
     <script>
@@ -301,7 +277,7 @@
     function generateConversionGrid() {
         const grid = document.querySelector('.grid');
         grid.innerHTML = '';
-        for (let i = 1; i <= 500; i += 10) { // Show fewer items for simplicity
+        for (let i = 1; i <= 500; i += 10) {
             const gridItem = document.createElement('div');
             gridItem.className = 'grid-item';
             gridItem.innerHTML = `<a href="/${i}-km-to-mi" onclick="navigateTo('/${i}-km-to-mi'); return false;">${i} KM</a>`;
