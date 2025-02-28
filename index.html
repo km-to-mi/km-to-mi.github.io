@@ -182,8 +182,7 @@
             <h1><a href="/" onclick="navigateTo('/'); return false;">KM to Miles Converter</a></h1>
             <nav>
                 <a href="/" onclick="navigateTo('/'); return false;">Home</a>
-                <a href="/sitemap.xml">Sitemap</a>
-                <a href="/p/sitemap.xml" onclick="navigateTo('/p/sitemap.xml'); return false;">Sitemap Preview</a>
+                <a href="/p/sitemap.xml" onclick="navigateTo('/p/sitemap.xml'); return false;">Sitemap</a>
             </nav>
         </div>
         <div class="card calculator">
@@ -269,6 +268,14 @@
         sitemap += '    <priority>1.0</priority>\n';
         sitemap += '  </url>\n';
         
+        // Add sitemap page
+        sitemap += '  <url>\n';
+        sitemap += `    <loc>${baseUrl}/p/sitemap.xml</loc>\n`;
+        sitemap += `    <lastmod>${currentDate}</lastmod>\n`;
+        sitemap += '    <changefreq>monthly</changefreq>\n';
+        sitemap += '    <priority>0.5</priority>\n';
+        sitemap += '  </url>\n';
+        
         // Add all conversion pages
         for (let i = 1; i <= 1000; i++) {
             const url = `${baseUrl}/${i}-km-to-mi`;
@@ -330,10 +337,6 @@
             detailedContent.style.display = 'block';
             updatePageMetadata(km);
             showDetailedConversion(km);
-        } else if (currentPath === '/sitemap.xml') {
-            // Do not interfere with direct file access
-            window.location.href = '/sitemap.xml';
-            return;
         } else {
             navigateTo('/');
         }
