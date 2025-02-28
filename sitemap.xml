@@ -1,9 +1,3 @@
-KM to Miles Converter
-Home
-Sitemap
-Enter KM (e.g., 10)
- Convert
-Sitemap Preview
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
@@ -1507,6 +1501,3 @@ Sitemap Preview
     <loc>https://km-to-mi.github.io/500-km-to-mi</loc>
   </url>
 </urlset>
-View Full Sitemap
-
-© 2025 KM to Miles Converter. All rights reserved.
