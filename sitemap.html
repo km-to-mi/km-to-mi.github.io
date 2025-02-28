@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sitemap Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            margin-top: 20px;
+            padding: 10px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sitemap Generator</h1>
+    <p>Click the button to generate and download a sitemap for URLs from 1-km-to-mi to 1000-km-to-mi</p>
+    <button onclick="generateAndDownloadSitemap()">Generate & Download Sitemap</button>
+    <textarea id="sitemapPreview" placeholder="Sitemap preview will appear here after generation"></textarea>
+
+    <script>
+        // Function to generate sitemap XML
+        function generateSitemap() {
+            const baseUrl = 'https://km-to-mi.github.io/';
+            const currentDate = new Date().toISOString().split('T')[0];
+            
+            let sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n';
+            sitemap += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+            
+            for (let i = 1; i <= 1000; i++) {
+                const url = `${baseUrl}${i}-km-to-mi`;
+                sitemap += '  <url>\n';
+                sitemap += `    <loc>${url}</loc>\n`;
+                sitemap += `    <lastmod>${currentDate}</lastmod>\n`;
+                sitemap += '    <changefreq>monthly</changefreq>\n';
+                sitemap += '    <priority>0.8</priority>\n';
+                sitemap += '  </url>\n';
+            }
+            
+            sitemap += '</urlset>';
+            return sitemap;
+        }
+
+        // Function to handle generation and download
+        function generateAndDownloadSitemap() {
+            // Generate the sitemap
+            const sitemapContent = generateSitemap();
+            
+            // Show preview in textarea
+            document.getElementById('sitemapPreview').value = sitemapContent;
+            
+            // Create and trigger download
+            const blob = new Blob([sitemapContent], { type: 'text/xml' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'sitemap.xml';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>
