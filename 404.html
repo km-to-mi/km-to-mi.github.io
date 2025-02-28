@@ -181,9 +181,7 @@
         <div class="header">
             <h1><a href="/" onclick="navigateTo('/'); return false;">KM to Miles Converter</a></h1>
             <nav>
-                <a href="/" onclick="navigateTo('/'); return false;">Home</a>
-                <a href="/sitemap.xml">Sitemap</a>
-                <a href="/sitemap.xml" onclick="navigateTo('/sitemap.xml'); return false;">sitemap.xml</a>
+            
             </nav>
         </div>
         <div class="card calculator">
@@ -261,7 +259,6 @@
         let sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n';
         sitemap += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
         
-        // Add home page
         sitemap += '  <url>\n';
         sitemap += `    <loc>${baseUrl}/</loc>\n`;
         sitemap += `    <lastmod>${currentDate}</lastmod>\n`;
@@ -269,7 +266,13 @@
         sitemap += '    <priority>1.0</priority>\n';
         sitemap += '  </url>\n';
         
-        // Add all conversion pages
+        sitemap += '  <url>\n';
+        sitemap += `    <loc>${baseUrl}/p/sitemap.xml</loc>\n`;
+        sitemap += `    <lastmod>${currentDate}</lastmod>\n`;
+        sitemap += '    <changefreq>monthly</changefreq>\n';
+        sitemap += '    <priority>0.5</priority>\n';
+        sitemap += '  </url>\n';
+        
         for (let i = 1; i <= 1000; i++) {
             const url = `${baseUrl}/${i}-km-to-mi`;
             sitemap += '  <url>\n';
@@ -330,10 +333,6 @@
             detailedContent.style.display = 'block';
             updatePageMetadata(km);
             showDetailedConversion(km);
-        } else if (currentPath === '/sitemap.xml') {
-            // Do not interfere with direct file access
-            window.location.href = '/sitemap.xml';
-            return;
         } else {
             navigateTo('/');
         }
@@ -345,7 +344,7 @@
         for (let i = 1; i <= 500; i += 10) {
             const gridItem = document.createElement('div');
             gridItem.className = 'grid-item';
-            gridItem.innerHTML = `<a href="/${i}-km-to-mi" onclick="navigateTo('/${i}-km-to-mi'); return false;">${i} KM</a>`;
+            gridItem.innerHTML = `<a href="/${i}-km-to-mi" onclick="navigateTo('/${i}-km-to-mi'); return false;">${i} KM To MI</a>`;
             grid.appendChild(gridItem);
         }
     }
@@ -368,8 +367,7 @@
         document.getElementById('stepExplanation').innerHTML = `
             1. Take ${km} kilometers.<br>
             2. Multiply by 0.621371.<br>
-        
-            3. Add 0.1 KM for next steps, e.g., ${(km + 0.1).toFixed(1)} KM = ${((km + 0.1) * 0.621371).toFixed(2)} miles.
+            3. You will get ${miles.toFixed(2)} miles.
         `;
 
         document.getElementById('explanationText').innerHTML = `
@@ -379,8 +377,10 @@
 
     function convertKmToMiles() {
         const km = parseFloat(document.getElementById('inputValue').value);
-        if (!isNaN(km)) {
+        if (!isNaN(km) && km > 0) {
             navigateTo(`/${km}-km-to-mi`);
+        } else {
+            document.getElementById('result').innerHTML = 'Please enter a valid number greater than 0.';
         }
     }
 
