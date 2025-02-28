@@ -368,12 +368,12 @@
         document.getElementById('stepExplanation').innerHTML = `
             1. Take ${km} kilometers.<br>
             2. Multiply by 0.621371.<br>
-            3. Get ${miles.toFixed(2)} miles.<br>
-            4. Add 0.1 KM for next steps, e.g., ${(km + 0.1).toFixed(1)} KM = ${((km + 0.1) * 0.621371).toFixed(2)} miles.
+        
+            3. Add 0.1 KM for next steps, e.g., ${(km + 0.1).toFixed(1)} KM = ${((km + 0.1) * 0.621371).toFixed(2)} miles.
         `;
 
         document.getElementById('explanationText').innerHTML = `
-            Switching from kilometers to miles is quick and easy! Start with ${km} KM, multiply by 0.621371 (the magic number for this conversion), and you’ll land on ${miles.toFixed(2)} miles. It’s a handy trick for travel, fitness, or just satisfying your curiosity!
+            Switching from kilometers to miles is quick and easy! Start with ${km} KM, multiply by 0.621371 (the magic number for this conversion), and you’ll land on ${miles.toFixed(2)} miles.
         `;
     }
 
