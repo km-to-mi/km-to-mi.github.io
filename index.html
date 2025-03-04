@@ -179,9 +179,9 @@
 <body>
     <div class="main-content">
         <div class="header">
-            <h1><a href="#/" onclick="navigateTo('#/'); return false;">KM to Miles Converter</a></h1>
+            <h1><a href="/">KM to Miles Converter</a></h1>
             <nav>
-                <a href="#/sitemap" onclick="navigateTo('#/sitemap'); return false;">Sitemap</a>
+                <a href="/sitemap">Sitemap</a>
             </nav>
         </div>
         <div class="card calculator">
@@ -249,11 +249,6 @@
         return window.location.origin;
     }
 
-    function navigateTo(hash) {
-        window.location.hash = hash;
-        renderPage();
-    }
-
     function generateFullSitemap() {
         const baseUrl = getBaseUrl();
         const currentDate = new Date().toISOString().split('T')[0];
@@ -269,14 +264,14 @@
         sitemap += '  </url>\n';
         
         sitemap += '  <url>\n';
-        sitemap += `    <loc>${baseUrl}/#/sitemap</loc>\n`;
+        sitemap += `    <loc>${baseUrl}/sitemap</loc>\n`;
         sitemap += `    <lastmod>${currentDate}</lastmod>\n`;
         sitemap += '    <changefreq>monthly</changefreq>\n';
         sitemap += '    <priority>0.5</priority>\n';
         sitemap += '  </url>\n';
         
         for (let i = 1; i <= 1000; i++) {
-            const url = `${baseUrl}/#/${i}-km-to-mi`;
+            const url = `${baseUrl}/${i}-km-to-mi`;
             sitemap += '  <url>\n';
             sitemap += `    <loc>${url}</loc>\n`;
             sitemap += `    <lastmod>${currentDate}</lastmod>\n`;
@@ -306,24 +301,24 @@
     }
 
     function renderPage() {
-        const currentHash = window.location.hash.toLowerCase() || '#/';
+        const path = window.location.pathname.toLowerCase();
         const gridContainer = document.getElementById('gridContainer');
         const detailedContent = document.getElementById('detailedContent');
         const sitemapContainer = document.getElementById('sitemapContainer');
 
         let km = null;
-        if (currentHash.match(/^#\/(\d+)-km-to-mi$/)) {
-            const match = currentHash.match(/#\/(\d+)-km-to-mi/);
+        if (path.match(/^\/(\d+)-km-to-mi$/)) {
+            const match = path.match(/\/(\d+)-km-to-mi/);
             if (match) km = parseFloat(match[1]);
         }
 
-        if (currentHash === '#/' || currentHash === '') {
+        if (path === '/' || path === '') {
             gridContainer.style.display = 'block';
             sitemapContainer.style.display = 'none';
             detailedContent.style.display = 'none';
             generateConversionGrid();
             updatePageMetadata(null);
-        } else if (currentHash === '#/sitemap') {
+        } else if (path === '/sitemap') {
             gridContainer.style.display = 'none';
             detailedContent.style.display = 'none';
             sitemapContainer.style.display = 'block';
@@ -336,7 +331,7 @@
             updatePageMetadata(km);
             showDetailedConversion(km);
         } else {
-            navigateTo('#/');
+            window.location.pathname = '/';
         }
     }
 
@@ -346,7 +341,7 @@
         for (let i = 1; i <= 500; i += 10) {
             const gridItem = document.createElement('div');
             gridItem.className = 'grid-item';
-            gridItem.innerHTML = `<a href="#/${i}-km-to-mi" onclick="navigateTo('#/${i}-km-to-mi'); return false;">${i} KM To MI</a>`;
+            gridItem.innerHTML = `<a href="/${i}-km-to-mi">${i} KM To MI</a>`;
             grid.appendChild(gridItem);
         }
     }
@@ -380,19 +375,15 @@
     function convertKmToMiles() {
         const km = parseFloat(document.getElementById('inputValue').value);
         if (!isNaN(km) && km > 0) {
-            navigateTo(`#/${km}-km-to-mi`);
+            window.location.pathname = `/${km}-km-to-mi`;
         } else {
             document.getElementById('result').innerHTML = 'Please enter a valid number greater than 0.';
         }
     }
 
-    window.addEventListener('hashchange', renderPage);
     window.addEventListener('load', () => {
         renderPage();
     });
-
-    // Initial render
-    renderPage();
     </script>
 </body>
-</html>
+</html> 
