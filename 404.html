@@ -9,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
 
     <style>
-    /* Your existing CSS remains unchanged */
     * {
         box-sizing: border-box;
         margin: 0;
@@ -182,7 +181,7 @@
         <div class="header">
             <h1><a href="/" onclick="navigateTo('/'); return false;">KM to Miles Converter</a></h1>
             <nav>
-                <a href="/sitemap" onclick="navigateTo('/sitemap'); return false;">Sitemap</a>
+                <a href="/p/sitemap.xml" onclick="navigateTo('/p/sitemap.xml'); return false;">Sitemap</a>
             </nav>
         </div>
         <div class="card calculator">
@@ -230,170 +229,184 @@
     </div>
 
     <script>
-    function updatePageMetadata(km) {
-        const titleElement = document.getElementById('dynamicTitle');
-        const metaDescription = document.getElementById('metaDescription');
-        if (!isNaN(km)) {
-            document.title = `${km} KM to Miles Converter`;
-            titleElement.textContent = `${km} KM to Miles Converter`;
-            if (metaDescription) {
-                metaDescription.setAttribute('content', `Convert ${km} kilometers to miles instantly with our easy-to-use tool.`);
+    (function() {
+        // Detect if loaded as 404 and adjust URL
+        const is404 = window.location.pathname !== '/' && 
+                     window.location.pathname !== '/index.html' && 
+                     window.location.pathname !== '/p/sitemap.xml';
+        if (is404) {
+            // Rewrite URL to root with original path preserved
+            const originalPath = window.location.pathname + window.location.search + window.location.hash;
+            window.history.replaceState({}, '', '/' + originalPath.slice(1));
+        }
+
+        function updatePageMetadata(km) {
+            const titleElement = document.getElementById('dynamicTitle');
+            const metaDescription = document.getElementById('metaDescription');
+            if (!isNaN(km)) {
+                document.title = `${km} KM to Miles Converter`;
+                titleElement.textContent = `${km} KM to Miles Converter`;
+                if (metaDescription) {
+                    metaDescription.setAttribute('content', `Convert ${km} kilometers to miles instantly with our easy-to-use tool.`);
+                }
+            } else {
+                document.title = 'KM to Miles Converter';
+                titleElement.textContent = 'KM to Miles Converter';
+                metaDescription.setAttribute('content', 'Easily convert kilometers to miles with our fast, accurate online tool.');
             }
-        } else {
-            document.title = 'KM to Miles Converter';
-            titleElement.textContent = 'KM to Miles Converter';
-            metaDescription.setAttribute('content', 'Easily convert kilometers to miles with our fast, accurate online tool.');
         }
-    }
 
-    function getBaseUrl() {
-        return window.location.origin;
-    }
+        function getBaseUrl() {
+            return window.location.origin;
+        }
 
-    function navigateTo(path) {
-        const baseUrl = getBaseUrl();
-        const fullPath = path === '/' ? baseUrl : `${baseUrl}${path}`;
-        window.history.pushState({}, '', fullPath);
-        renderPage();
-    }
+        function navigateTo(path) {
+            const baseUrl = getBaseUrl();
+            const fullPath = path === '/' ? baseUrl : `${baseUrl}${path}`;
+            window.history.pushState({}, '', fullPath);
+            renderPage();
+        }
 
-    function generateFullSitemap() {
-        const baseUrl = getBaseUrl();
-        const currentDate = new Date().toISOString().split('T')[0];
-        
-        let sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n';
-        sitemap += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
-        
-        sitemap += '  <url>\n';
-        sitemap += `    <loc>${baseUrl}/</loc>\n`;
-        sitemap += `    <lastmod>${currentDate}</lastmod>\n`;
-        sitemap += '    <changefreq>daily</changefreq>\n`;
-        sitemap += '    <priority>1.0</priority>\n';
-        sitemap += '  </url>\n';
-        
-        sitemap += '  <url>\n';
-        sitemap += `    <loc>${baseUrl}/sitemap</loc>\n`;
-        sitemap += `    <lastmod>${currentDate}</lastmod>\n`;
-        sitemap += '    <changefreq>monthly</changefreq>\n`;
-        sitemap += '    <priority>0.5</priority>\n';
-        sitemap += '  </url>\n';
-        
-        for (let i = 1; i <= 1000; i++) {
-            const url = `${baseUrl}/${i}-km-to-mi`;
+        function generateFullSitemap() {
+            const baseUrl = getBaseUrl();
+            const currentDate = new Date().toISOString().split('T')[0];
+            
+            let sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n';
+            sitemap += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+            
             sitemap += '  <url>\n';
-            sitemap += `    <loc>${url}</loc>\n`;
+            sitemap += `    <loc>${baseUrl}/</loc>\n`;
             sitemap += `    <lastmod>${currentDate}</lastmod>\n`;
-            sitemap += '    <changefreq>monthly</changefreq>\n`;
-            sitemap += '    <priority>0.8</priority>\n`;
+            sitemap += '    <changefreq>daily</changefreq>\n';
+            sitemap += '    <priority>1.0</priority>\n';
             sitemap += '  </url>\n';
-        }
-        
-        sitemap += '</urlset>';
-        return sitemap;
-    }
-
-    function generateSitemapPreview() {
-        const sitemapContent = generateFullSitemap();
-        document.getElementById("sitemap").textContent = sitemapContent;
-    }
-
-    function downloadSitemap() {
-        const sitemapContent = generateFullSitemap();
-        const blob = new Blob([sitemapContent], { type: 'text/xml' });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = 'sitemap.xml';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    }
-
-    function renderPage() {
-        const currentPath = window.location.pathname.toLowerCase() || '/';
-        const gridContainer = document.getElementById('gridContainer');
-        const detailedContent = document.getElementById('detailedContent');
-        const sitemapContainer = document.getElementById('sitemapContainer');
-
-        let km = null;
-        if (currentPath.match(/^\/(\d+)-km-to-mi$/)) {
-            const match = currentPath.match(/\/(\d+)-km-to-mi/);
-            if (match) km = parseFloat(match[1]);
+            
+            sitemap += '  <url>\n';
+            sitemap += `    <loc>${baseUrl}/p/sitemap.xml</loc>\n`;
+            sitemap += `    <lastmod>${currentDate}</lastmod>\n`;
+            sitemap += '    <changefreq>monthly</changefreq>\n';
+            sitemap += '    <priority>0.5</priority>\n';
+            sitemap += '  </url>\n';
+            
+            for (let i = 1; i <= 1000; i++) {
+                const url = `${baseUrl}/${i}-km-to-mi`;
+                sitemap += '  <url>\n';
+                sitemap += `    <loc>${url}</loc>\n`;
+                sitemap += `    <lastmod>${currentDate}</lastmod>\n`;
+                sitemap += '    <changefreq>monthly</changefreq>\n';
+                sitemap += '    <priority>0.8</priority>\n';
+                sitemap += '  </url>\n';
+            }
+            
+            sitemap += '</urlset>';
+            return sitemap;
         }
 
-        if (currentPath === '/' || currentPath === '') {
-            gridContainer.style.display = 'block';
-            sitemapContainer.style.display = 'none';
-            detailedContent.style.display = 'none';
-            generateConversionGrid();
-            updatePageMetadata(null);
-        } else if (currentPath === '/sitemap') {
-            gridContainer.style.display = 'none';
-            detailedContent.style.display = 'none';
-            sitemapContainer.style.display = 'block';
-            generateSitemapPreview();
-            updatePageMetadata(null);
-        } else if (!isNaN(km)) {
-            gridContainer.style.display = 'none';
-            sitemapContainer.style.display = 'none';
-            detailedContent.style.display = 'block';
-            updatePageMetadata(km);
-            showDetailedConversion(km);
-        } else {
-            navigateTo('/');
-        }
-    }
-
-    function generateConversionGrid() {
-        const grid = document.querySelector('.grid');
-        grid.innerHTML = '';
-        for (let i = 1; i <= 500; i += 10) {
-            const gridItem = document.createElement('div');
-            gridItem.className = 'grid-item';
-            gridItem.innerHTML = `<a href="/${i}-km-to-mi" onclick="navigateTo('/${i}-km-to-mi'); return false;">${i} KM To MI</a>`;
-            grid.appendChild(gridItem);
-        }
-    }
-
-    function showDetailedConversion(km) {
-        const inputValue = document.getElementById('inputValue');
-        const resultDiv = document.getElementById('result');
-        inputValue.value = km;
-        const miles = km * 0.621371;
-        resultDiv.innerHTML = `${km} KM equals ${miles.toFixed(2)} miles`;
-
-        const tableBody = document.querySelector('#kmToMilesTable tbody');
-        tableBody.innerHTML = '';
-        for (let i = 1; i <= 9; i++) {
-            const incrementalValue = km + (i / 10);
-            const convertedValue = incrementalValue * 0.621371;
-            tableBody.innerHTML += `<tr><td>${incrementalValue.toFixed(1)}</td><td>${convertedValue.toFixed(2)}</td></tr>`;
+        function generateSitemapPreview() {
+            const sitemapContent = generateFullSitemap();
+            document.getElementById("sitemap").textContent = sitemapContent;
         }
 
-        document.getElementById('stepExplanation').innerHTML = `
-            1. Take ${km} kilometers.<br>
-            2. Multiply by 0.621371.<br>
-            3. You will get ${miles.toFixed(2)} miles.
-        `;
-
-        document.getElementById('explanationText').innerHTML = `
-            Switching from kilometers to miles is quick and easy! Start with ${km} KM, multiply by 0.621371 (the magic number for this conversion), and you’ll land on ${miles.toFixed(2)} miles.
-        `;
-    }
-
-    function convertKmToMiles() {
-        const km = parseFloat(document.getElementById('inputValue').value);
-        if (!isNaN(km) && km > 0) {
-            navigateTo(`/${km}-km-to-mi`);
-        } else {
-            document.getElementById('result').innerHTML = 'Please enter a valid number greater than 0.';
+        function downloadSitemap() {
+            const sitemapContent = generateFullSitemap();
+            const blob = new Blob([sitemapContent], { type: 'text/xml' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'sitemap.xml';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
-    }
 
-    window.addEventListener('popstate', renderPage);
-    window.addEventListener('load', () => {
-        // Ensure initial render matches the URL
+        function renderPage() {
+            const currentPath = window.location.pathname.toLowerCase() || '/';
+            const gridContainer = document.getElementById('gridContainer');
+            const detailedContent = document.getElementById('detailedContent');
+            const sitemapContainer = document.getElementById('sitemapContainer');
+
+            let km = null;
+            if (currentPath.match(/^\/(\d+)-km-to-mi$/)) {
+                const match = currentPath.match(/\/(\d+)-km-to-mi/);
+                if (match) km = parseFloat(match[1]);
+            }
+
+            if (currentPath === '/' || currentPath === '') {
+                gridContainer.style.display = 'block';
+                sitemapContainer.style.display = 'none';
+                detailedContent.style.display = 'none';
+                generateConversionGrid();
+                updatePageMetadata(null);
+            } else if (currentPath === '/p/sitemap.xml') {
+                gridContainer.style.display = 'none';
+                detailedContent.style.display = 'none';
+                sitemapContainer.style.display = 'block';
+                generateSitemapPreview();
+                updatePageMetadata(null);
+            } else if (!isNaN(km)) {
+                gridContainer.style.display = 'none';
+                sitemapContainer.style.display = 'none';
+                detailedContent.style.display = 'block';
+                updatePageMetadata(km);
+                showDetailedConversion(km);
+            } else {
+                navigateTo('/');
+            }
+        }
+
+        function generateConversionGrid() {
+            const grid = document.querySelector('.grid');
+            grid.innerHTML = '';
+            for (let i = 1; i <= 500; i += 10) {
+                const gridItem = document.createElement('div');
+                gridItem.className = 'grid-item';
+                gridItem.innerHTML = `<a href="/${i}-km-to-mi" onclick="navigateTo('/${i}-km-to-mi'); return false;">${i} KM To MI</a>`;
+                grid.appendChild(gridItem);
+            }
+        }
+
+        function showDetailedConversion(km) {
+            const inputValue = document.getElementById('inputValue');
+            const resultDiv = document.getElementById('result');
+            inputValue.value = km;
+            const miles = km * 0.621371;
+            resultDiv.innerHTML = `${km} KM equals ${miles.toFixed(2)} miles`;
+
+            const tableBody = document.querySelector('#kmToMilesTable tbody');
+            tableBody.innerHTML = '';
+            for (let i = 1; i <= 9; i++) {
+                const incrementalValue = km + (i / 10);
+                const convertedValue = incrementalValue * 0.621371;
+                tableBody.innerHTML += `<tr><td>${incrementalValue.toFixed(1)}</td><td>${convertedValue.toFixed(2)}</td></tr>`;
+            }
+
+            document.getElementById('stepExplanation').innerHTML = `
+                1. Take ${km} kilometers.<br>
+                2. Multiply by 0.621371.<br>
+                3. You will get ${miles.toFixed(2)} miles.
+            `;
+
+            document.getElementById('explanationText').innerHTML = `
+                Switching from kilometers to miles is quick and easy! Start with ${km} KM, multiply by 0.621371 (the magic number for this conversion), and you’ll land on ${miles.toFixed(2)} miles.
+            `;
+        }
+
+        function convertKmToMiles() {
+            const km = parseFloat(document.getElementById('inputValue').value);
+            if (!isNaN(km) && km > 0) {
+                navigateTo(`/${km}-km-to-mi`);
+            } else {
+                document.getElementById('result').innerHTML = 'Please enter a valid number greater than 0.';
+            }
+        }
+
+        window.addEventListener('popstate', renderPage);
+        window.addEventListener('load', () => {
+            renderPage();
+        });
+
+        // Initial render
         renderPage();
-    });
+    })();
     </script>
 </body>
 </html>
