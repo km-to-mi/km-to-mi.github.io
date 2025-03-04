@@ -228,16 +228,25 @@
         </div>
     </div>
 
+    <!-- Noscript fallback for crawlers -->
+    <noscript>
+        <div>
+            <h2>KM to Miles Converter</h2>
+            <p>This tool converts kilometers to miles. Example: 5 KM = 3.11 miles (5 × 0.621371).</p>
+            <p>See all conversions from 1 to 1000 KM at <a href="/p/sitemap.xml">Sitemap</a>.</p>
+        </div>
+    </noscript>
+
     <script>
     (function() {
-        // Detect if loaded as 404 and adjust URL
-        const is404 = window.location.pathname !== '/' && 
-                     window.location.pathname !== '/index.html' && 
-                     window.location.pathname !== '/p/sitemap.xml';
+        // Handle 404 case by rewriting URL and rendering immediately
+        const currentPath = window.location.pathname.toLowerCase() || '/';
+        const is404 = currentPath !== '/' && 
+                     currentPath !== '/index.html' && 
+                     currentPath !== '/p/sitemap.xml';
         if (is404) {
-            // Rewrite URL to root with original path preserved
-            const originalPath = window.location.pathname + window.location.search + window.location.hash;
-            window.history.replaceState({}, '', '/' + originalPath.slice(1));
+            // Rewrite URL to preserve path for SPA rendering
+            window.history.replaceState({}, '', currentPath);
         }
 
         function updatePageMetadata(km) {
@@ -404,7 +413,7 @@
             renderPage();
         });
 
-        // Initial render
+        // Immediate render for crawlers
         renderPage();
     })();
     </script>
