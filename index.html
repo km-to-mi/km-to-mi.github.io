@@ -232,16 +232,21 @@
     function updatePageMetadata(km) {
         const titleElement = document.getElementById('dynamicTitle');
         const metaDescription = document.getElementById('metaDescription');
-        if (!isNaN(km)) {
+        
+        // Check if km is a valid, non-null number
+        if (km !== null && !isNaN(km) && km !== '') {
             document.title = `${km} KM to Miles Converter`;
             titleElement.textContent = `${km} KM to Miles Converter`;
             if (metaDescription) {
                 metaDescription.setAttribute('content', `Convert ${km} kilometers to miles instantly with our easy-to-use tool.`);
             }
         } else {
+            // Default case for homepage (when km is null, undefined, or invalid)
             document.title = 'KM to Miles Converter';
             titleElement.textContent = 'KM to Miles Converter';
-            metaDescription.setAttribute('content', 'Easily convert kilometers to miles with our fast, accurate online tool.');
+            if (metaDescription) {
+                metaDescription.setAttribute('content', 'Easily convert kilometers to miles with our fast, accurate online tool.');
+            }
         }
     }
 
