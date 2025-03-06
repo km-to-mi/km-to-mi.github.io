@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link href="https://cdn-icons-png.flaticon.com/512/189/189688.png" rel="icon" type="image/png"/>
-    <title id="dynamicTitle">KM to Miles Converter</title>
+    <title id="dynamicTitle">Kilometer To Mile Converter</title>
     <meta content="Easily convert kilometers to miles with our fast, accurate online tool." id="metaDescription" name="description"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
@@ -180,7 +180,7 @@ body {
 <body>
     <div class="main-content">
         <div class="header">
-            <h1><a href="?" onclick="navigateTo('?'); return false;">KM to Miles Converter</a></h1>
+            <h1><a href="?" onclick="navigateTo('?'); return false;">Kilometer To Mile Converter</a></h1>
             <nav>
                 <a href="?page=sitemap" onclick="navigateTo('?page=sitemap'); return false;">Sitemap</a>
             </nav>
@@ -204,8 +204,8 @@ body {
                 <table class="table" id="kmToMilesTable">
                     <thead>
                         <tr>
-                            <th>KM</th>
-                            <th>Miles</th>
+                            <th>Kilometers (km)</th>
+                            <th>Miles (mi)</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -225,7 +225,7 @@ body {
             </div>
         </div>
         <div class="footer">
-            <p>© 2025 KM to Miles Converter. All rights reserved.</p>
+            <p>© 2025 Kilometer to Mile Converter. All rights reserved.</p>
         </div>
     </div>
 
@@ -235,14 +235,14 @@ body {
         const metaDescription = document.getElementById('metaDescription');
         
         if (km !== null && !isNaN(km) && km !== '') {
-            document.title = `${km} KM to Miles Converter`;
-            titleElement.textContent = `${km} KM to Miles Converter`;
+            document.title = `${km} Kilometers To Miles (km to mi) Converter`;
+            titleElement.textContent = `${km} Kilometers To Miles (km to mi) Converter`;
             if (metaDescription) {
                 metaDescription.setAttribute('content', `Convert ${km} kilometers to miles instantly with our easy-to-use tool.`);
             }
         } else {
-            document.title = 'KM to Miles Converter';
-            titleElement.textContent = 'KM to Miles Converter';
+            document.title = 'Kilometer To Mile Converter';
+            titleElement.textContent = 'Kilometer To Mile Converter';
             if (metaDescription) {
                 metaDescription.setAttribute('content', 'Easily convert kilometers to miles with our fast, accurate online tool.');
             }
