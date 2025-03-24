@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Sitemap</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        .conversion-list {
+            list-style: none;
+            padding: 0;
+        }
+        .conversion-list li {
+            margin: 5px 0;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <h1>KM to Miles Conversion</h1>
+    <ul class="conversion-list" id="conversionList"></ul>
+    <div class="result" id="result"></div>
+
+    <script>
+        // Function to convert km to miles
+        function kmToMiles(km) {
+            return (km * 0.621371).toFixed(2);
+        }
+
+        // Function to show result
+        function showResult(km) {
+            const resultDiv = document.getElementById('result');
+            const miles = kmToMiles(km);
+            resultDiv.textContent = `${km} km = ${miles} miles`;
+        }
+
+        // Generate list of links
+        const list = document.getElementById('conversionList');
+        for (let i = 1; i <= 1000; i++) {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = `/?km=${i}`;
+            a.textContent = `${i} km to miles`;
+            li.appendChild(a);
+            list.appendChild(li);
+        }
+
+        // Check URL parameter on page load and show result if present
+        const urlParams = new URLSearchParams(window.location.search);
+        const kmParam = urlParams.get('km');
+        if (kmParam && !isNaN(kmParam) && kmParam >= 1 && kmParam <= 1000) {
+            showResult(parseInt(kmParam));
+        } else if (kmParam) {
+            document.getElementById('result').textContent = 'Invalid km value';
+        }
+    </script>
+</body>
+</html>
